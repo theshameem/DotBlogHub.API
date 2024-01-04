@@ -1,4 +1,6 @@
 using DotBlogHub.API.Data;
+using DotBlogHub.API.Repositories.Implementation;
+using DotBlogHub.API.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DotBlogHubConnectionString"))
 ) ;
+
+builder.Services.AddScoped<IcategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 
