@@ -1,6 +1,7 @@
 ﻿using DotBlogHub.API.Data;
 using DotBlogHub.API.Models.Domain;
 using DotBlogHub.API.Repositories.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotBlogHub.API.Repositories.Implementation
 {
@@ -18,6 +19,11 @@ namespace DotBlogHub.API.Repositories.Implementation
 			await dbContext.SaveChangesAsync();
 
 			return category;
+		}
+
+		public async Task<IEnumerable<Category>> GetAllAsync()
+		{
+			return await dbContext.Categories.ToListAsync();
 		}
 	}
 }

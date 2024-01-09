@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotBlogHub.API.Controllers
 {
-	//https://localhost:xxxx/api/categories
+	//POST: https://localhost:7045/api/categories
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CategoriesController : ControllerBase
@@ -37,6 +37,30 @@ namespace DotBlogHub.API.Controllers
 				UrlHandle = category.UrlHandle
 			};
 
+
+			return Ok(response);
+		}
+
+
+		//Get: https://localhost:7045/api/categories
+		[HttpGet]
+		public async Task<IActionResult> GetAllCategories()
+		{
+			var categories = await categoryRepository.GetAllAsync();
+
+			//Map domain model to DTO
+
+			var response = new List<CategoryDto>();
+			
+			foreach(var category in categories)
+			{
+				response.Add(new CategoryDto 
+				{ 
+					Id = category.Id, 
+					Name = category.Name,
+					UrlHandle= category.UrlHandle	
+				});
+			}
 
 			return Ok(response);
 		}
