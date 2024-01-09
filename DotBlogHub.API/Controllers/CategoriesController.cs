@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotBlogHub.API.Controllers
 {
-	//POST: https://localhost:7045/api/Categories
+	//POST: https://localhost:7045/api/categories
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CategoriesController : ControllerBase
@@ -41,8 +41,8 @@ namespace DotBlogHub.API.Controllers
 			return Ok(response);
 		}
 
-		//Get: https://localhost:7045/api/Categories
 
+		//Get: https://localhost:7045/api/categories
 		[HttpGet]
 		public async Task<IActionResult> GetAllCategories()
 		{
