@@ -64,5 +64,27 @@ namespace DotBlogHub.API.Controllers
 
 			return Ok(response);
 		}
+
+		//GET: https://localhost:7045/api/categories/{id}
+		[HttpGet]
+		[Route("{id:Guid}")]
+		public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
+		{
+			var category = await categoryRepository.GetCategoryByIdAsync(id);
+
+			if(category is null)
+			{
+				return NotFound();
+			}
+
+			var response = new CategoryDto
+			{
+				Id = category.Id,
+				Name = category.Name,
+				UrlHandle = category.UrlHandle
+			};
+
+			return Ok(response);
+		}
 	}
 }

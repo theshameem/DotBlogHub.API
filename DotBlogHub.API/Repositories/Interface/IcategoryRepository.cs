@@ -6,5 +6,6 @@ namespace DotBlogHub.API.Repositories.Interface
 	{
 		Task<Category> CreateAsync(Category category);
 		Task<IEnumerable<Category>> GetAllAsync();
+		Task<Category?> GetCategoryByIdAsync(Guid id);
 	}
 }
