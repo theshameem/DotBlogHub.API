@@ -51,14 +51,14 @@ namespace DotBlogHub.API.Controllers
 			//Map domain model to DTO
 
 			var response = new List<CategoryDto>();
-			
-			foreach(var category in categories)
+
+			foreach (var category in categories)
 			{
-				response.Add(new CategoryDto 
-				{ 
-					Id = category.Id, 
+				response.Add(new CategoryDto
+				{
+					Id = category.Id,
 					Name = category.Name,
-					UrlHandle= category.UrlHandle	
+					UrlHandle = category.UrlHandle
 				});
 			}
 
