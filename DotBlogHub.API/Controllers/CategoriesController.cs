@@ -51,14 +51,14 @@ namespace DotBlogHub.API.Controllers
 			//Map domain model to DTO
 
 			var response = new List<CategoryDto>();
-			
-			foreach(var category in categories)
+
+			foreach (var category in categories)
 			{
-				response.Add(new CategoryDto 
-				{ 
-					Id = category.Id, 
+				response.Add(new CategoryDto
+				{
+					Id = category.Id,
 					Name = category.Name,
-					UrlHandle= category.UrlHandle	
+					UrlHandle = category.UrlHandle
 				});
 			}
 
@@ -71,6 +71,35 @@ namespace DotBlogHub.API.Controllers
 		public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
 		{
 			var category = await categoryRepository.GetCategoryByIdAsync(id);
+
+			if (category is null)
+			{
+				return NotFound();
+			}
+
+			var response = new CategoryDto
+			{
+				Id = category.Id,
+				Name = category.Name,
+				UrlHandle = category.UrlHandle
+			};
+
+			return Ok(response);
+		}
+
+		//PUT: https://localhost:7045/api/categories/{id}
+		[HttpPut]
+		[Route("{id:Guid}")]
+		public async Task<IActionResult> EditCategory([FromRoute]Guid id, [FromBody]UpdateCategoryRequestDto request)
+		{
+			var category = new Category
+			{
+				Id = id,
+				Name = request.Name,
+				UrlHandle = request.UrlHandle
+			};
+
+			category = await categoryRepository.UpdateAsync(category);
 
 			if(category is null)
 			{
