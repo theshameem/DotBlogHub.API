@@ -41,7 +41,6 @@ namespace DotBlogHub.API.Controllers
 			return Ok(response);
 		}
 
-
 		//Get: https://localhost:7045/api/categories
 		[HttpGet]
 		public async Task<IActionResult> GetAllCategories()
@@ -109,6 +108,29 @@ namespace DotBlogHub.API.Controllers
 			var response = new CategoryDto
 			{
 				Id = category.Id,
+				Name = category.Name,
+				UrlHandle = category.UrlHandle
+			};
+
+			return Ok(response);
+		}
+
+		//DELETE: https://localhost:7045/api/categories/{id}
+		[HttpDelete]
+		[Route("{id:Guid}")]
+
+		public async Task<IActionResult> DeleteCategory([FromRoute]Guid id)
+		{
+			var category = await categoryRepository.DeleteAsync(id);
+
+			if(category is null)
+			{
+				return NotFound();
+			}
+
+			var response = new CategoryDto
+			{
+				Id = id,
 				Name = category.Name,
 				UrlHandle = category.UrlHandle
 			};
