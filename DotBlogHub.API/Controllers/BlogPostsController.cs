@@ -1,4 +1,6 @@
-﻿using DotBlogHub.API.Models.DTO;
+﻿using DotBlogHub.API.Models.Domain;
+using DotBlogHub.API.Models.DTO;
+using DotBlogHub.API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +10,18 @@ namespace DotBlogHub.API.Controllers
 	[ApiController]
 	public class BlogPostsController : ControllerBase
 	{
-		//POST: {apiBaseUrl}/api/blogposts 
-		[HttpPost]
-		public async Task<IActionResult> CreateBlogPost(CreateBlogPostRequestDto request)
+		private readonly IBlogPostRepository blogPostRepository;
+
+		public BlogPostsController(IBlogPostRepository blogPostRepository)
+        {
+			this.blogPostRepository = blogPostRepository;
+		}
+
+        //POST: {apiBaseUrl}/api/blogposts 
+        [HttpPost]
+		public async Task<IActionResult> CreateBlogPost([FromBody] CreateBlogPostRequestDto request)
 		{
-			var blogPost = new CreateBlogPostRequestDto
+			var blogPost = new BlogPost
 			{
 				Title = request.Title,
 				Author = request.Author,
@@ -24,14 +33,22 @@ namespace DotBlogHub.API.Controllers
 				FeatureImageUrl = request.FeatureImageUrl,
 			};
 
-		//	public string Title { get; set; }
-		//public string ShortDescription { get; set; }
-		//public string Content { get; set; }
-		//public string FeatureImageUrl { get; set; }
-		//public string UrlHandle { get; set; }
-		//public DateTime PublishedDate { get; set; }
-		//public string Author { get; set; }
-		//public bool IsVisible { get; set; }
-	}
+			blogPost = await blogPostRepository.CreateAsync(blogPost);
+
+			var response = new BlogPostDto
+			{
+				Id = blogPost.Id,
+				Title = blogPost.Title,
+				Author = blogPost.Author,
+				PublishedDate = blogPost.PublishedDate,
+				IsVisible = blogPost.IsVisible,
+				ShortDescription = blogPost.ShortDescription,
+				Content = blogPost.Content,
+				UrlHandle = blogPost.UrlHandle,
+				FeatureImageUrl = blogPost.FeatureImageUrl,
+			};
+
+			return Ok(response);
+		}
 	}
 }
