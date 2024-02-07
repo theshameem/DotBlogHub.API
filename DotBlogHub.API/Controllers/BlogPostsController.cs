@@ -30,7 +30,7 @@ namespace DotBlogHub.API.Controllers
 				ShortDescription = request.ShortDescription,
 				Content = request.Content,
 				UrlHandle = request.UrlHandle,
-				FeatureImageUrl = request.FeatureImageUrl,
+				FeaturedImageUrl = request.FeaturedImageUrl,
 			};
 
 			blogPost = await blogPostRepository.CreateAsync(blogPost);
@@ -45,7 +45,7 @@ namespace DotBlogHub.API.Controllers
 				ShortDescription = blogPost.ShortDescription,
 				Content = blogPost.Content,
 				UrlHandle = blogPost.UrlHandle,
-				FeatureImageUrl = blogPost.FeatureImageUrl,
+				FeaturedImageUrl = blogPost.FeaturedImageUrl,
 			};
 
 			return Ok(response);
