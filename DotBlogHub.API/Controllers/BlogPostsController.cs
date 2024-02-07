@@ -50,5 +50,32 @@ namespace DotBlogHub.API.Controllers
 
 			return Ok(response);
 		}
+
+		//GET: {apiBaseUrl}/api/blogposts
+		[HttpGet]
+		public async Task<IActionResult> GetBlogPostsList()
+		{
+			var blogList = await blogPostRepository.GetAllBlogsAsync();
+
+			var response = new List<BlogPostDto>();
+
+			foreach(var blog in blogList)
+			{
+				response.Add(new BlogPostDto
+				{
+					Id = blog.Id, 
+					Title = blog.Title,
+					Author = blog.Author,
+					PublishedDate = blog.PublishedDate,
+					ShortDescription = blog.ShortDescription,
+					Content = blog.Content,
+					UrlHandle = blog.UrlHandle,
+					FeaturedImageUrl = blog.FeaturedImageUrl,
+					IsVisible = blog.IsVisible,
+				});
+			}
+
+			return Ok(response);
+		}
 	}
 }
