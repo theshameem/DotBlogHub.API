@@ -1,6 +1,7 @@
 ﻿using DotBlogHub.API.Data;
 using DotBlogHub.API.Models.Domain;
 using DotBlogHub.API.Repositories.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotBlogHub.API.Repositories.Implementation
 {
@@ -20,5 +21,10 @@ namespace DotBlogHub.API.Repositories.Implementation
 
 			return blogPost;
 		}
-    }
+
+		public async Task<IEnumerable<BlogPost>> GetAllBlogsAsync()
+		{
+			return await dbContext.BlogPosts.ToListAsync();
+		}
+	}
 }
