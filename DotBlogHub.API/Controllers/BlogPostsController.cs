@@ -11,10 +11,12 @@ namespace DotBlogHub.API.Controllers
 	public class BlogPostsController : ControllerBase
 	{
 		private readonly IBlogPostRepository blogPostRepository;
+		private readonly IcategoryRepository categoryRepository;
 
-		public BlogPostsController(IBlogPostRepository blogPostRepository)
+		public BlogPostsController(IBlogPostRepository blogPostRepository, IcategoryRepository categoryRepository)
         {
 			this.blogPostRepository = blogPostRepository;
+			this.categoryRepository = categoryRepository;
 		}
 
         //POST: {apiBaseUrl}/api/blogposts 
@@ -31,7 +33,18 @@ namespace DotBlogHub.API.Controllers
 				Content = request.Content,
 				UrlHandle = request.UrlHandle,
 				FeaturedImageUrl = request.FeaturedImageUrl,
+				Categories = new List<Category>()
 			};
+
+			foreach(var categoryGuid in request.Categories)
+			{
+				var existingCategory = await categoryRepository.GetCategoryByIdAsync(categoryGuid);
+
+				if(existingCategory is not null)
+				{
+					blogPost.Categories.Add(existingCategory);
+				}
+			}
 
 			blogPost = await blogPostRepository.CreateAsync(blogPost);
 
@@ -46,6 +59,7 @@ namespace DotBlogHub.API.Controllers
 				Content = blogPost.Content,
 				UrlHandle = blogPost.UrlHandle,
 				FeaturedImageUrl = blogPost.FeaturedImageUrl,
+				Categories = blogPost.Categories.Select(x => new CategoryDto { Id = x.Id, Name = x.Name, UrlHandle = x.UrlHandle }).ToList()
 			};
 
 			return Ok(response);
