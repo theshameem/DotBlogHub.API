@@ -86,6 +86,7 @@ namespace DotBlogHub.API.Controllers
 					UrlHandle = blog.UrlHandle,
 					FeaturedImageUrl = blog.FeaturedImageUrl,
 					IsVisible = blog.IsVisible,
+					Categories = blog.Categories.Select(x => new CategoryDto { Id = x.Id, Name = x.Name, UrlHandle = x.UrlHandle }).ToList()
 				});
 			}
 

@@ -24,7 +24,7 @@ namespace DotBlogHub.API.Repositories.Implementation
 
 		public async Task<IEnumerable<BlogPost>> GetAllBlogsAsync()
 		{
-			return await dbContext.BlogPosts.ToListAsync();
+			return await dbContext.BlogPosts.Include(x => x.Categories).ToListAsync();
 		}
 	}
 }
