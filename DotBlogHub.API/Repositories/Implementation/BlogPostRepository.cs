@@ -26,5 +26,10 @@ namespace DotBlogHub.API.Repositories.Implementation
 		{
 			return await dbContext.BlogPosts.Include(x => x.Categories).ToListAsync();
 		}
+
+		public async Task<BlogPost?> GetBlogPostByIdAsync(Guid id)
+		{
+			return await dbContext.BlogPosts.FirstOrDefaultAsync(x => x.Id == id);
+		}
 	}
 }

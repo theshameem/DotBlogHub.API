@@ -92,5 +92,34 @@ namespace DotBlogHub.API.Controllers
 
 			return Ok(response);
 		}
+
+		// GET: {apiBaseUrl}/api/blogpost/{id}
+		[HttpGet]
+		[Route("{id:Guid}")]
+		public async Task<IActionResult> GetBlogPost([FromRoute] Guid id)
+		{
+			var blogPost = await blogPostRepository.GetBlogPostByIdAsync(id);
+			
+			if(blogPost is null)
+			{
+				return NotFound();
+			}
+
+			var response = new BlogPostDto 
+			{ 
+				Id = blogPost.Id,
+				Author = blogPost.Author,
+				Title = blogPost.Title,
+				PublishedDate = blogPost.PublishedDate,
+				ShortDescription = blogPost.ShortDescription,
+				Content = blogPost.Content,
+				UrlHandle = blogPost.UrlHandle,
+				FeaturedImageUrl= blogPost.FeaturedImageUrl,
+				IsVisible = blogPost.IsVisible,
+				Categories = blogPost.Categories.Select(x => new CategoryDto { Id = x.Id, Name = x.Name, UrlHandle= x.UrlHandle }).ToList()
+			};
+
+			return Ok(response);
+		}
 	}
 }
