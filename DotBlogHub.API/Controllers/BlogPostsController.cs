@@ -121,5 +121,57 @@ namespace DotBlogHub.API.Controllers
 
 			return Ok(response);
 		}
+
+		// PUT: {apiBaseUrl}/api/blogpost/{id}
+		[HttpPut]
+		[Route("{id:Guid}")]
+		public async Task<IActionResult> UpdateBlogPostById([FromRoute] Guid id, UpdateBlogPostDTO request)
+		{
+			var blogPost = new BlogPost
+			{
+				Id = id,
+				Author = request.Author,
+				Title = request.Title,
+				PublishedDate = request.PublishedDate,
+				ShortDescription = request.ShortDescription,
+				Content = request.Content,
+				UrlHandle = request.UrlHandle,
+				FeaturedImageUrl = request.FeaturedImageUrl,
+				IsVisible = request.IsVisible,
+				Categories = new List<Category>()
+			};
+
+			foreach(var categoryGuid in request.Categories)
+			{
+				var existingCategory = await categoryRepository.GetCategoryByIdAsync(categoryGuid);
+				if(existingCategory != null)
+				{
+					blogPost.Categories.Add(existingCategory);
+				}
+			}
+
+			var updatedBlogPost = await blogPostRepository.UpdateAsync(blogPost);
+
+			if(updatedBlogPost == null)
+			{
+				return NotFound();
+			}
+
+			var response = new BlogPostDto
+			{
+				Id = id,
+				Author = request.Author,
+				Title = request.Title,
+				PublishedDate = request.PublishedDate,
+				ShortDescription = request.ShortDescription,
+				Content = request.Content,
+				UrlHandle = request.UrlHandle,
+				FeaturedImageUrl = request.FeaturedImageUrl,
+				IsVisible = request.IsVisible,
+				Categories = blogPost.Categories.Select(x => new CategoryDto { Id = x.Id, Name = x.Name, UrlHandle = x.UrlHandle }).ToList()
+			};
+
+			return Ok(response);
+		}
 	}
 }
