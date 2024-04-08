@@ -7,5 +7,6 @@ namespace DotBlogHub.API.Repositories.Interface
 		Task<BlogPost> CreateAsync(BlogPost blogPost);
 		Task<IEnumerable<BlogPost>> GetAllBlogsAsync(); 
 		Task<BlogPost> GetBlogPostByIdAsync(Guid id);
+		Task<BlogPost> UpdateAsync(BlogPost blogPost);
 	}
 }
