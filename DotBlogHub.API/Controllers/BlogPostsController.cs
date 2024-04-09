@@ -1,4 +1,5 @@
-﻿using DotBlogHub.API.Models.Domain;
+﻿using Azure.Core;
+using DotBlogHub.API.Models.Domain;
 using DotBlogHub.API.Models.DTO;
 using DotBlogHub.API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
@@ -169,6 +170,34 @@ namespace DotBlogHub.API.Controllers
 				FeaturedImageUrl = request.FeaturedImageUrl,
 				IsVisible = request.IsVisible,
 				Categories = blogPost.Categories.Select(x => new CategoryDto { Id = x.Id, Name = x.Name, UrlHandle = x.UrlHandle }).ToList()
+			};
+
+			return Ok(response);
+		}
+
+		// DELETE: {apiBaseUrl}/api/blogposts/{id}
+		[HttpDelete]
+		[Route("{id:Guid}")]
+		public async Task<IActionResult> DeleteBlogPost([FromRoute] Guid id)
+		{
+			var deletedBlogPost = await blogPostRepository.DeleteAsync(id);
+
+			if(deletedBlogPost == null)
+			{
+				return NotFound();
+			}
+
+			var response = new BlogPostDto
+			{
+				Id = id,
+				Author = deletedBlogPost.Author,
+				Title = deletedBlogPost.Title,
+				PublishedDate = deletedBlogPost.PublishedDate,
+				ShortDescription = deletedBlogPost.ShortDescription,
+				Content = deletedBlogPost.Content,
+				UrlHandle = deletedBlogPost.UrlHandle,
+				FeaturedImageUrl = deletedBlogPost.FeaturedImageUrl,
+				IsVisible = deletedBlogPost.IsVisible,
 			};
 
 			return Ok(response);
