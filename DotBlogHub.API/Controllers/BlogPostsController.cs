@@ -93,7 +93,7 @@ namespace DotBlogHub.API.Controllers
 			return Ok(response);
 		}
 
-		// GET: {apiBaseUrl}/api/blogpost/{id}
+		// GET: {apiBaseUrl}/api/blogposts/{id}
 		[HttpGet]
 		[Route("{id:Guid}")]
 		public async Task<IActionResult> GetBlogPost([FromRoute] Guid id)
@@ -122,7 +122,7 @@ namespace DotBlogHub.API.Controllers
 			return Ok(response);
 		}
 
-		// PUT: {apiBaseUrl}/api/blogpost/{id}
+		// PUT: {apiBaseUrl}/api/blogposts/{id}
 		[HttpPut]
 		[Route("{id:Guid}")]
 		public async Task<IActionResult> UpdateBlogPostById([FromRoute] Guid id, UpdateBlogPostDTO request)
