@@ -3,9 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotBlogHub.API.Data
 {
-	public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
+	public class ApplicationDbContext: DbContext
 	{
-		public DbSet<BlogPost> BlogPosts { get; set; }
+		public ApplicationDbContext(DbContextOptions options) : base(options)
+		{
+		}
+
+        public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Category> Categories { get; set; }
     }
 }
