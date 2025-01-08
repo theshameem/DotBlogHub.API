@@ -11,9 +11,9 @@ namespace DotBlogHub.API.Controllers
 	[ApiController]
 	public class CategoriesController : ControllerBase
 	{
-		private readonly IcategoryRepository categoryRepository;
+		private readonly ICategoryRepository categoryRepository;
 
-		public CategoriesController(IcategoryRepository categoryRepository)
+		public CategoriesController(ICategoryRepository categoryRepository)
 		{
 			this.categoryRepository = categoryRepository;
 		}

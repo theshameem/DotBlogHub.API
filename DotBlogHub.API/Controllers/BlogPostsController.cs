@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DotBlogHub.API.Models.Domain;
 using DotBlogHub.API.Models.DTO;
+using DotBlogHub.API.Repositories.Implementation;
 using DotBlogHub.API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,9 @@ namespace DotBlogHub.API.Controllers
 	public class BlogPostsController : ControllerBase
 	{
 		private readonly IBlogPostRepository blogPostRepository;
-		private readonly IcategoryRepository categoryRepository;
+		private readonly ICategoryRepository categoryRepository;
 
-		public BlogPostsController(IBlogPostRepository blogPostRepository, IcategoryRepository categoryRepository)
+		public BlogPostsController(IBlogPostRepository blogPostRepository, ICategoryRepository categoryRepository)
         {
 			this.blogPostRepository = blogPostRepository;
 			this.categoryRepository = categoryRepository;

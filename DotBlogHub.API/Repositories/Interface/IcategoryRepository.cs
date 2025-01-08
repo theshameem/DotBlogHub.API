@@ -2,7 +2,7 @@
 
 namespace DotBlogHub.API.Repositories.Interface
 {
-	public interface IcategoryRepository
+	public interface ICategoryRepository
 	{
 		Task<Category> CreateAsync(Category category);
 		Task<IEnumerable<Category>> GetAllAsync();

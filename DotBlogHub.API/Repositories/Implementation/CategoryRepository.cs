@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotBlogHub.API.Repositories.Implementation
 {
-	public class CategoryRepository : IcategoryRepository
+	public class CategoryRepository : ICategoryRepository
 	{
 		private readonly ApplicationDbContext dbContext;
 
